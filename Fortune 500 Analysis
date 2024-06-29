@@ -56,3 +56,34 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
+#Analysis
+
+#Which Energy companies offer health care? If healthcare is offered, then "Health benefits" if not, then "No Benefits"
+SELECT company_name,
+CASE
+WHEN healthcare_benefits = 1 THEN "Health Benefits"
+WHEN healthcare_benefits = 0 THEN "No Benefits"
+END as 'Benefits?'
+FROM fortune_companies
+WHERE industry='Energy'
+;
+
+#Which Industries average over $200 Billion, and what are their average revenues?
+SELECT Industry, ROUND(AVG(revenue),1) as avg_revenue_billions
+FROM fortune_companies
+GROUP BY industry
+HAVING avg_revenue_billions>200
+;
+
+# Which company in the Retail industry has the least revenue, and what's their revenue?
+SELECT company_name, min(revenue)
+FROM fortune_companies
+WHERE industry = 'Retail'
+;
+
+# Which Ccompanies have healthcare benefits *and* at least 20 paid time off days?
+SELECT company_name
+FROM fortune_companies
+WHERE paid_time_off_days>20
+AND healthcare_benefits=1
+;
